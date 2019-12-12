@@ -189,7 +189,7 @@ UnresolvedLookupExpr::CreateEmpty(ASTContext &C, unsigned NumTemplateArgs) {
   if (NumTemplateArgs != 0)
     size += ExplicitTemplateArgumentList::sizeFor(NumTemplateArgs);
 
-  void *Mem = C.Allocate(size, llvm::alignof<UnresolvedLookupExpr>());
+  void *Mem = C.Allocate(size, llvm::alignof_<UnresolvedLookupExpr>());
   UnresolvedLookupExpr *E = new (Mem) UnresolvedLookupExpr(EmptyShell());
   E->HasExplicitTemplateArgs = NumTemplateArgs != 0;
   return E;
@@ -217,7 +217,7 @@ void OverloadExpr::initializeResults(ASTContext &C,
   if (NumResults) {
     Results = static_cast<DeclAccessPair *>(
                                 C.Allocate(sizeof(DeclAccessPair) * NumResults, 
-                                           llvm::alignof<DeclAccessPair>()));
+                                           llvm::alignof_<DeclAccessPair>()));
     memcpy(Results, &*Begin.getIterator(), 
            NumResults * sizeof(DeclAccessPair));
   }
@@ -877,7 +877,7 @@ CXXDependentScopeMemberExpr::Create(ASTContext &C,
   if (TemplateArgs)
     size += ExplicitTemplateArgumentList::sizeFor(*TemplateArgs);
 
-  void *Mem = C.Allocate(size, llvm::alignof<CXXDependentScopeMemberExpr>());
+  void *Mem = C.Allocate(size, llvm::alignof_<CXXDependentScopeMemberExpr>());
   return new (Mem) CXXDependentScopeMemberExpr(C, Base, BaseType,
                                                IsArrow, OperatorLoc,
                                                Qualifier, QualifierRange,
@@ -896,7 +896,7 @@ CXXDependentScopeMemberExpr::CreateEmpty(ASTContext &C,
 
   std::size_t size = sizeof(CXXDependentScopeMemberExpr) +
                      ExplicitTemplateArgumentList::sizeFor(NumTemplateArgs);
-  void *Mem = C.Allocate(size, llvm::alignof<CXXDependentScopeMemberExpr>());
+  void *Mem = C.Allocate(size, llvm::alignof_<CXXDependentScopeMemberExpr>());
   CXXDependentScopeMemberExpr *E
     =  new (Mem) CXXDependentScopeMemberExpr(C, 0, QualType(),
                                              0, SourceLocation(), 0,
@@ -952,7 +952,7 @@ UnresolvedMemberExpr::Create(ASTContext &C, bool Dependent,
   if (TemplateArgs)
     size += ExplicitTemplateArgumentList::sizeFor(*TemplateArgs);
 
-  void *Mem = C.Allocate(size, llvm::alignof<UnresolvedMemberExpr>());
+  void *Mem = C.Allocate(size, llvm::alignof_<UnresolvedMemberExpr>());
   return new (Mem) UnresolvedMemberExpr(C, 
                              Dependent ? C.DependentTy : C.OverloadTy,
                              Dependent, HasUnresolvedUsing, Base, BaseType,
@@ -966,7 +966,7 @@ UnresolvedMemberExpr::CreateEmpty(ASTContext &C, unsigned NumTemplateArgs) {
   if (NumTemplateArgs != 0)
     size += ExplicitTemplateArgumentList::sizeFor(NumTemplateArgs);
 
-  void *Mem = C.Allocate(size, llvm::alignof<UnresolvedMemberExpr>());
+  void *Mem = C.Allocate(size, llvm::alignof_<UnresolvedMemberExpr>());
   UnresolvedMemberExpr *E = new (Mem) UnresolvedMemberExpr(EmptyShell());
   E->HasExplicitTemplateArgs = NumTemplateArgs != 0;
   return E;

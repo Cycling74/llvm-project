@@ -493,7 +493,7 @@ void SCEVUnknown::print(raw_ostream &OS) const {
     return;
   }
   if (isAlignOf(AllocTy)) {
-    OS << "alignof(" << *AllocTy << ")";
+    OS << "alignof_(" << *AllocTy << ")";
     return;
   }
 
