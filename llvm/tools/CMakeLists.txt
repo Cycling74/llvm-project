@@ -36,8 +36,8 @@ add_subdirectory(llvm-stub)
 add_subdirectory(edis)
 add_subdirectory(llvmc)
 
-if( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/clang/CMakeLists.txt )
-  add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/clang )
-endif( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/clang/CMakeLists.txt )
+#if( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/clang/CMakeLists.txt )
+  add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/../../clang clang)
+#endif( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/clang/CMakeLists.txt )
 
 set(LLVM_COMMON_DEPENDS ${LLVM_COMMON_DEPENDS} PARENT_SCOPE)
