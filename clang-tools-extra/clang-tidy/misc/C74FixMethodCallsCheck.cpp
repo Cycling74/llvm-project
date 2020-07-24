@@ -88,7 +88,13 @@ void C74FixMethodCallsCheck::registerMatchers(MatchFinder *Finder)
   // I couldn't figure out how to make the matcher only return variadic functions.
   // But, FunctionProtoType::getEllipsisLocation() can be used in the check() function for that. 
   Finder->addMatcher(
-    typedefDecl ( unless(anyOf(hasName("method"),hasName("t_intmethod"))), 
+    typedefDecl ( 
+      unless(anyOf(
+        hasName("method"), hasName("t_intmethod"),   // method and t_intmethod taken care of already
+        hasName("t_pf_jit_object_new"), hasName("t_pf_jit_object_method"),   // these actually call to variadic functions so are okay
+        hasName("openPtr"), hasName("ioctlPtr"), hasName("printfPtr"),        // these are fine, in serial_carbon.c
+        hasName("object_post_t")    // this is from maxnode_utils.c and is fine, actually calling a varargs function
+      )), 
       hasType( pointerType( pointee( ignoringParens( functionProtoType(  ).bind("functionProtoType") ) ) ) )).bind("functionPointerTypedef"
     ),
     this
