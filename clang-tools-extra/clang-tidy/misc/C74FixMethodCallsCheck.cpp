@@ -82,6 +82,17 @@ void C74FixMethodCallsCheck::registerMatchers(MatchFinder *Finder)
   // add matcher for method calls without the * before the function pointer
   addMatcher("method", Finder);
   addMatcher("t_intmethod", Finder);
+
+  // add a matcher to look for typedefs of variadic functions
+  // this matches all typedefs of function pointers
+  // I couldn't figure out how to make the matcher only return variadic functions.
+  // But, FunctionProtoType::getEllipsisLocation() can be used in the check() function for that. 
+  Finder->addMatcher(
+    typedefDecl ( unless(anyOf(hasName("method"),hasName("t_intmethod"))), 
+      hasType( pointerType( pointee( ignoringParens( functionProtoType(  ).bind("functionProtoType") ) ) ) )).bind("functionPointerTypedef"
+    ),
+    this
+  );
 }
 
 void C74FixMethodCallsCheck::doCheck(const MatchFinder::MatchResult &Result, const char *typedefName)
@@ -159,6 +170,19 @@ void C74FixMethodCallsCheck::check(const MatchFinder::MatchResult &Result)
 {
   doCheck(Result, "method");
   doCheck(Result, "t_intmethod");
+
+  if (const auto fptr = Result.Nodes.getNodeAs<TypedefDecl>("functionPointerTypedef"))
+  {
+    if (const auto proto = Result.Nodes.getNodeAs<FunctionProtoType>("functionProtoType"))
+    {
+      // does it have ellipsis, and thus variadic? 
+      SourceLocation ellipsis = proto->getEllipsisLoc();
+      if (ellipsis.isValid())
+      {
+        diag(fptr->getLocation(), "warning: typedef with variadic function found");
+      }
+    }
+  }
 }
 
 } // namespace misc
