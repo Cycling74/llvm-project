@@ -121,8 +121,14 @@ void C74FixMethodCallsCheck::doCheck(const MatchFinder::MatchResult &Result, con
     // ignore if detect a macro is already at the source location
     if (methodBeginLoc.isMacroID())
     {
-      diag(methodBeginLoc, "found method call via macro, ignoring");
-      return;
+      StringRef MacroName = Lexer::getImmediateMacroName(methodBeginLoc, SM, Opts);
+      // APM_GET_PROTECTION_METHOD works properly with CALL_METHOD addition below
+      // so we allow it to be processed
+      if (MacroName != "APM_GET_PROTECTION_METHOD")
+      {
+        diag(methodBeginLoc, "found method call via macro, ignoring");
+        return;
+      }
     }
 
     if (const auto methExpr = Result.Nodes.getNodeAs<Expr>(calleeBinding))
