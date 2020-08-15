@@ -70,7 +70,7 @@ Clang-Tidy Checks
    `bugprone-misplaced-widening-cast <bugprone-misplaced-widening-cast.html>`_,
    `bugprone-move-forwarding-reference <bugprone-move-forwarding-reference.html>`_, "Yes"
    `bugprone-multiple-statement-macro <bugprone-multiple-statement-macro.html>`_,
-   `bugprone-no-escape <bugprone-no-escape.html>`_, "Yes"
+   `bugprone-no-escape <bugprone-no-escape.html>`_,
    `bugprone-not-null-terminated-result <bugprone-not-null-terminated-result.html>`_, "Yes"
    `bugprone-parent-virtual-call <bugprone-parent-virtual-call.html>`_, "Yes"
    `bugprone-posix-return <bugprone-posix-return.html>`_, "Yes"
@@ -201,6 +201,7 @@ Clang-Tidy Checks
    `misc-non-copyable-objects <misc-non-copyable-objects.html>`_,
    `misc-non-private-member-variables-in-classes <misc-non-private-member-variables-in-classes.html>`_,
    `misc-redundant-expression <misc-redundant-expression.html>`_, "Yes"
+   `misc-rewrite_entry_point <misc-rewrite_entry_point.html>`_, "Yes"
    `misc-static-assert <misc-static-assert.html>`_, "Yes"
    `misc-throw-by-value-catch-by-reference <misc-throw-by-value-catch-by-reference.html>`_,
    `misc-unconventional-assign-operator <misc-unconventional-assign-operator.html>`_,
